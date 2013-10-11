@@ -1,8 +1,7 @@
 Acerca de
+---------------
 
-======
-
-**SonidoCanaima.sh**, script que permite *Activar*, *Cambiar* y *Desactivar* el sonido de Inicio de Canaima GNU Linux.
+**SonidoCanaima.sh**, este script nos permite *Activar*, *Cambiar* y *Desactivar* el sonido de Inicio de Canaima GNU Linux, expecificamente la version en desarollo 4.0 - Octubre/2013.
 
 ¿Cómo funciona?
 ---------------
