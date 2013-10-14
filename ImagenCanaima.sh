@@ -26,15 +26,16 @@
 # Iniciamos nuestro script declarando las variables
 # USR = Verificamos que iniciamos el scrip como usuario root.
 # DIR = Nos ubicamos en el directorio de trabajo actual.
-# RUTA = Donde se encuentra el archivo de sonido.
-# ARCHIVO = Nombre del archivo de sonido.
+# RUTA = Donde se encuentra la imagen.
+# ARCHIVO = Nombre de la imagen.
 
 USR=$(whoami)
 DIR=$(pwd)
-RUTA=/usr/share/sounds/freedesktop/stereo
-ARCHIVO=desktop-login.oga
+RUTA=/usr/share/images/desktop-base
+ARCHIVO=login-background.png
 
-TITLE=".:Sonido:."
+
+TITLE=".:Imagen:."
 
 # Condicionamos que el usuario sea root, caso contrario salimos del script.
 	if [ $USR != "root" ]; then
@@ -42,13 +43,9 @@ TITLE=".:Sonido:."
 		exit 1
 	fi
 
-# Establecemos las opciones del menú.
-# A las opciones asignamos un valor del 0 al 3, 
-# de acuerdo al valor seleccionado ejecutamos la 
-# opción correspondiente.
 
 Main () {
-OPCION=$(zenity --cancel-label="Menú" --height=230 --list --title "$TITLE" --hide-column 1 --text "Operaciones del sonido." --column "" --column "Opciones disponibles: " \
+OPCION=$(zenity --cancel-label="Menú" --height=230 --list --title "$TITLE" --hide-column 1 --text "Operaciones de imagen." --column "" --column "Opciones disponibles: " \
 "0" "Activar" \
 "1" "Cambiar" \
 "2" "Desactivar" \
@@ -69,33 +66,25 @@ OPCION=$(zenity --cancel-label="Menú" --height=230 --list --title "$TITLE" --hi
 
 }
 
-# Opción "Activar", verificamos que el archivo existe,
-# Si existe mostramos en pantalla que ya se encuentra activo.
-# Caso contrario renombramos a: desktop-login-RESPALDO.oga
-
 Activar () 
 {
 	if [ -f $RUTA/$ARCHIVO ]; then
-		zenity --error --text "El Sonido ya se encuentra Activo..."
-	elif [ -f $RUTA/desktop-login-RESPALDO.oga ]; then
-		mv $RUTA/desktop-login-RESPALDO.oga $RUTA/$ARCHIVO
+		zenity --error --text "La imagen ya se encuentra activa..."
+	elif [ -f $RUTA/login-background-RESPALDO.png ]; then
+		mv $RUTA/login-background-RESPALDO.png $RUTA/$ARCHIVO
 	else
-		zenity --warning --text="No se encuentra el archivo desktop-login.oga" 
+		zenity --warning --text="No se encuentra la imagen de inicio." 
 	fi
 Main
 }
 
-# Opción "Cambiar", verificamos que el archivo este activo,
-# Si no esta activo pedimos sea activado.
-# Hacemos respaldo del sonido original.
-# Y copiamos el archivo selecionado por el usuario.
-
 Cambiar () 
 {
-	if [ -f $RUTA/desktop-login-RESPALDO.oga ]; then
-		zenity --error --text "Debe activar el sonido."
+	if [ -f $RUTA/login-background-RESPALDO.png ]; then
+		zenity --error --text "Necesita activar la imagen de inicio."
 		exit
 	fi
+
 	if [ -f $RUTA/$ARCHIVO ]; then
 		NUEVO=`zenity --file-selection --title="Seleccione un archivo"`; 
 		SELECT=$(echo $?)
@@ -103,40 +92,40 @@ Cambiar ()
 			if  [ $SELECT = "1" ]; then
 				echo ""	
 	else
-		mv $RUTA/$ARCHIVO $RUTA/desktop-login-ORIGINAL.oga
+		mv $RUTA/$ARCHIVO $RUTA/login-background-ORIGINAL.png
 		cp $NUEVO $RUTA/$ARCHIVO
-		zenity --info --text "Sonido reemplazado correctamente."
+		zenity --info --text "Imagen reemplazada correctamente."
 			fi
 	fi
 Main
 }
 
-# Opción "Desactivar", verificamos que el archivo no este Desactivado,
-# Si esta desactivado, mostramos en pantalla que ya esta desactivado.
-# Caso contrario renombramos a: desktop-login-RESPALDO.oga
-
 Desactivar () 
 {
-	if [ -f $RUTA/desktop-login-RESPALDO.oga ]; then
-		zenity --error --text "El Sonido ya se encuentra Desactivado..."
+	if [ -f $RUTA/login-background-RESPALDO.png ]; then
+		zenity --error --text "La imagen se encuentra desactivada..."
 	elif [ -f $RUTA/$ARCHIVO ]; then
-		mv $RUTA/$ARCHIVO $RUTA/desktop-login-RESPALDO.oga 
+		mv $RUTA/$ARCHIVO $RUTA/login-background-RESPALDO.png 
 	else
-		zenity --warning --text="No se encuentra el archivo desktop-login.oga" 
+		zenity --warning --text="No se encuentra la imagen de inicio." 
 	fi
 Main
 }
 
 Restablecer () 
 {
-	if [ -f $RUTA/desktop-login-ORIGINAL.oga ]; then
-		mv $RUTA/desktop-login-ORIGINAL.oga $RUTA/$ARCHIVO
+	if [ -f $RUTA/login-background-RESPALDO.png ]; then
+		zenity --error --text "Necesita activar la imagen de inicio."
+		exit
+	fi
+
+	if [ -f $RUTA/login-background-ORIGINAL.png ]; then
+		mv $RUTA/login-background-ORIGINAL.png $RUTA/$ARCHIVO
 	else
-		zenity --error --text "No se ha hecho cambio de sonido..."
+		zenity --error --text "La imagen no ha sido cambiada..."
 
 	fi
 Main
 }
 
 Main
-
