@@ -30,6 +30,7 @@ La segunda version de este script por solo capricho mio permite poder modificar 
 Versiones
 ---------------
 V0.1 = Permite activar, desactivar, cambiar y restablecer el sonido de inicio de CanaimaGNULinux 4.0
+
 V0.2 = Permite activar, desactivar, cambiar y restablecer la imagen de inicio de CanaimaGNULinux 4.0
 
 ¿Leer mas?
